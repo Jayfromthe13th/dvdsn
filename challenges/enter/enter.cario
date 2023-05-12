@@ -1,5 +1,4 @@
-<pre>
-```python
+
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.cairo.common.locals import alloc_locals
 from starkware.cairo.common.lib_assert import assert_not_zero
@@ -32,8 +31,6 @@ func attack(target_contract_address: felt):
 
     # Here you could add other logic to disrupt the target contract further, if desired.
     # ...
-end
-```
-</pre>
+
 
 
