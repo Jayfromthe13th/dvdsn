@@ -1,0 +1,33 @@
+from starkware.cairo.common.cairo_builtins import HashBuiltin
+from starkware.cairo.common.locals import alloc_locals
+from starkware.cairo.common.lib_assert import assert_not_zero
+from starkware.cairo.common.address import get_caller_address
+
+@external
+func withdrawAll{
+    syscall_ptr : felt*,
+    pedersen_ptr : HashBuiltin*,
+    range_check_ptr
+}():
+    alloc_locals
+    let (caller) = get_caller_address()
+    let (bal) = balance.read(caller)
+    assert_not_zero(bal)
+    let (token) = token.read()    
+    IERC777.transfer(token, caller, bal)
+    
+    balance.write(caller, 0)
+    return ()
+end
+
+@external
+func attack(target_contract_address: felt):
+    # Get the address of the malicious contract.
+    let (attacker_address) = get_self_address()
+
+    # Call the withdrawAll function on the target contract.
+    target_contract.withdrawAll(target_contract_address)
+
+    # Here you could add other logic to disrupt the target contract further, if desired.
+    # ...
+end
